@@ -1,0 +1,19 @@
+{% for post in posts %}
+    <div class="post-main">
+        <div class="post-author">
+            <span>Img</span>
+            <span>{{ post.author.username }}</span>
+        </div>
+        <div class="post-content">
+            <p class="post-title">{{ post.title }}</p>
+            <p class="post-message">{{ post.message }}</p>
+
+            <div class="link-img-post">
+                {% if post.cover %}
+                    <a href="">Veja a imagem...</a>
+                    {% comment %} <img src="{{ post.cover.url }}" alt=""> {% endcomment %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}

@@ -4,5 +4,5 @@ from . import views
 app_name = 'social_echo'
 
 urlpatterns = [
-    path('', views.testando, name="testando")
+    path('', views.home, name="home")
 ]

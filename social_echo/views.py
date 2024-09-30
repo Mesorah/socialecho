@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Posts
 
 
-# Create your views here.
-def testando(request):
-    return HttpResponse('testando')
+def home(request):
+    posts = Posts.objects.all()
+
+    return render(request, 'social_echo/pages/home.html', context={
+        'title': 'Home',
+        'posts': posts
+    })
