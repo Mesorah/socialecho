@@ -1,7 +1,9 @@
 {% for post in posts %}
     <div class="post-main">
         <div class="post-author">
-            <span>Img</span>
+            {% if post.author_cover %}
+                <img src="{{ post.author_cover.cover.url }}" alt="" class="image">
+            {% endif %}
             <span>{{ post.author.username }}</span>
         </div>
         <div class="post-content">

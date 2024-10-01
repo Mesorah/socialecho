@@ -121,6 +121,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
+    margin-right: 1.2rem;
 }
 
 /* Campo do formulário */
@@ -158,6 +159,7 @@ body {
     transition: background-color 0.3s ease;
     display: inline-block;
     text-align: center;
+    margin-top: 10px;
 }
 
 .contact-button:hover {
@@ -194,4 +196,10 @@ body {
 
 .button-container a:hover {
     background-color: #218838;
+}
+
+.image {
+    width: 35px;
+    height: 40px;
+    border-radius: 50%;
 }
