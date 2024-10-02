@@ -21,6 +21,11 @@ body {
     font-size: 1.5em;
 }
 
+.header a {
+    text-decoration: none;
+    color: white;
+}
+
 .post-main {
     margin: 0 auto;
     width: 50%;
@@ -179,9 +184,27 @@ body {
 }
 
 /* Estilizando os links de adicionar/remover/atualizar categorias */
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.button-container a {
+    margin: 0 5px;
+}
+
 .button-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
@@ -192,6 +215,7 @@ body {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    margin: 0 5px;
 }
 
 .button-container a:hover {
@@ -202,4 +226,15 @@ body {
     width: 35px;
     height: 40px;
     border-radius: 50%;
+}
+
+.author-username {
+    display: inline-block;
+}
+
+/* Ajustes para telas maiores */
+@media (min-width: 768px) {
+    .button-container {
+        margin-right: 75%;
+    }
 }

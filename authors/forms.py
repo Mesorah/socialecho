@@ -40,15 +40,19 @@ class RegisterAuthor(forms.ModelForm):
 
         return username
 
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        repeat_password = self.cleaned_data.get('repeat_password')
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data['password']
+        repeat_password = cleaned_data['repeat_password']
 
         if password and repeat_password and password != repeat_password:
             self.add_error('password', 'As senhas não coincidem')
             self.add_error('repeat_password', 'As senhas não coincidem')
 
-        return password
+        if len(password) <= 3:
+            self.add_error('password', 'Essa senha é muito curta')
+
+        return cleaned_data
 
 
 class LoginAuthor(forms.Form):

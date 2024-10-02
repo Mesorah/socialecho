@@ -19,9 +19,6 @@ def register_author(request):
             if cover is None:
                 cover = 'media/user/base/base_cover.jpeg'
 
-            # cover = form.cleaned_data.get('cover',
-            #                               'media/user/base/base_cover.jpeg')
-
             AuthorUser.objects.create(
                 author=user,
                 cover=cover
@@ -33,6 +30,7 @@ def register_author(request):
         form = RegisterAuthor()
 
     return render(request, 'global/pages/base_form.html', context={
+        'title': 'Register',
         'form': form,
         'cover': cover
     })
@@ -56,6 +54,7 @@ def login_author(request):
         form = LoginAuthor()
 
     return render(request, 'global/pages/base_form.html', context={
+        'title': 'Login',
         'form': form,
     })
 

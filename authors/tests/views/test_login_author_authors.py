@@ -18,7 +18,7 @@ class TestLoginAuthor(TestCase):
         response = self.client.get(reverse(
             'authors:login_author')).content.decode('utf-8')
 
-        self.assertIn('<h1>Social Echo</h1>', response)
+        self.assertIn('Login', response)
 
     def test_login_author_is_post(self):
         response = self.client.post(reverse('authors:login_author'))

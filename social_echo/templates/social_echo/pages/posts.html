@@ -4,7 +4,7 @@
             {% if post.author_cover %}
                 <img src="{{ post.author_cover.cover.url }}" alt="" class="image">
             {% endif %}
-            <span>{{ post.author.username }}</span>
+            <p class="author-username">{{ post.author.username }}</p>
         </div>
         <div class="post-content">
             <p class="post-title">{{ post.title }}</p>
@@ -16,6 +16,13 @@
                     {% comment %} <img src="{{ post.cover.url }}" alt=""> {% endcomment %}
                 {% endif %}
             </div>
+            
+            {% if request.user == post.author %}
+                <div class="button-container">
+                    <a class="button" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
+                    <a class="button" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endfor %}

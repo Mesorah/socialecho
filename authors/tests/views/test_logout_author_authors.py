@@ -15,6 +15,7 @@ class TestLoginAuthor(TestCase):
         self.client.post(
             reverse('authors:login_author'), data=form_data)
 
-        logout = self.client.post(reverse('authors:logout_author'), data=form_data)
+        logout = self.client.post(
+            reverse('authors:logout_author'), data=form_data)
 
         self.assertEqual(logout.status_code, 302)

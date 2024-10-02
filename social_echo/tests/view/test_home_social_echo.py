@@ -17,4 +17,4 @@ class TestHomeSocialEcho(TestCase):
         response = self.client.get(reverse(
             'social_echo:home')).content.decode('utf-8')
 
-        self.assertIn('<h1>Social Echo</h1>', response)
+        self.assertIn('Social Echo', response)
