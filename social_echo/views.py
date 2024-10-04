@@ -83,4 +83,12 @@ def delete_post(request, id):
 
 
 def view_post(request, id):
-    pass
+    posts = get_object_or_404(Posts, id=id)
+
+    if not posts.cover:
+        raise Http404()
+
+    return render(request, 'social_echo/pages/view_page.html', context={
+        'title': 'View Page',
+        'posts': posts
+    })

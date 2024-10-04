@@ -39,14 +39,38 @@ body {
     flex-direction: column;
 }
 
+.posts-main {
+    margin: 0 auto;
+    width: 90vw;
+    height: 81.3vh;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
 .post-author {
     margin-bottom: 0.7rem;
     font-weight: bold;
     color: #00796b;
 }
 
+.posts-author {
+    margin-bottom: 3rem;
+    font-weight: bold;
+    color: #00796b;
+}
+
 .post-content {
     flex-grow: 1;
+}
+
+.posts-content {
+    flex-grow: 1;
+    text-align: center;
 }
 
 .post-content img {
@@ -65,6 +89,7 @@ body {
 }
 
 .post-message {
+    margin-top: 15px;
     font-size: 1.1em;
     margin-left: 10px;
     color: #616161;
@@ -78,6 +103,12 @@ body {
 
 .link-img-post:hover {
     color: #01579b;
+}
+
+.img_post {
+    margin-top: 2rem;
+    width: 30vw;
+    height: 47vh;
 }
 
 .contact-background {
@@ -197,10 +228,6 @@ body {
     background-color: #0056b3;
 }
 
-.button-container a {
-    margin: 0 5px;
-}
-
 .button-container {
     display: flex;
     justify-content: center;
@@ -228,7 +255,18 @@ body {
     border-radius: 50%;
 }
 
+.image-solo {
+    width: 50px;
+    height: 52px;
+    border-radius: 50%;
+}
+
 .author-username {
+    display: inline-block;
+}
+
+.author-username-solo {
+    font-size: 1.4em;
     display: inline-block;
 }
 
@@ -236,5 +274,13 @@ body {
 @media (min-width: 768px) {
     .button-container {
         margin-right: 75%;
+    }
+}
+
+@media (max-width: 768px) {
+    .img_post {
+        margin-top: 2rem;
+        width: 70vw;
+        height: 30vh;
     }
 }

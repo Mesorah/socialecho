@@ -12,8 +12,7 @@
 
             <div class="link-img-post">
                 {% if post.cover %}
-                    <a href="">Veja a imagem...</a>
-                    {% comment %} <img src="{{ post.cover.url }}" alt=""> {% endcomment %}
+                    <a href="{% url 'social_echo:view_post' post.id %}">Veja a imagem...</a>
                 {% endif %}
             </div>
             

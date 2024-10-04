@@ -1,0 +1,29 @@
+{% extends "global/pages/base.html" %}
+
+{% block content %}
+    <div class="posts-main">
+        <div class="posts-author">
+            {% if posts.author_cover %}
+                <img src="{{ posts.author_cover.cover.url }}" alt="" class="image-solo">
+            {% endif %}
+            <p class="author-username-solo">{{ posts.author.username }}</p>
+        </div>
+        <div class="posts-content">
+            <p class="post-title">{{ posts.title }}</p>
+            <p class="post-message">{{ posts.message }}</p>
+
+            <div>
+                {% if posts.cover %}
+                    <img src="{{ posts.cover.url }}" alt="" class="img_post">
+                {% endif %}
+            </div>
+            
+            {% if request.user == posts.author %}
+                <div class="button-container">
+                    <a class="button" href="{% url 'social_echo:edit_post' posts.id %}">Editar</a>
+                    <a class="button" href="{% url 'social_echo:delete_post' posts.id %}">Deletar</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
