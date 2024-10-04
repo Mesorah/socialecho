@@ -92,3 +92,12 @@ def view_post(request, id):
         'title': 'View Page',
         'posts': posts
     })
+
+
+@login_required
+def dashboard(request):
+    posts = Posts.objects.filter(author=request.user)
+
+    return render(request, 'social_echo/pages/dashboard.html', context={
+        'posts': posts,
+    })

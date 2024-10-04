@@ -14,9 +14,13 @@ class BaseCreatePost(BaseLoginAuthor):
 
     def create_post(self,
                     title='I am a test title2',
-                    message='I am a test message2',):
+                    message='I am a test message2',
+                    cover='media/user/base/base_cover.jpeg'):
+
+        author = self.create_user()
+
         self.post = Posts.objects.create(
             title=title,
             message=message,
-            author=self.author_user.author,
-        )
+            author=author,
+            cover=cover)

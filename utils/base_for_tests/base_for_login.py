@@ -20,7 +20,7 @@ class BaseLoginAuthor(TestCase):
 
         return super().setUp()
 
-    def create_user(self, username, password):
+    def create_user(self, username='test2', password='test2'):
         self.user = User.objects.create_user(
             username=username,
             password=password
@@ -33,3 +33,7 @@ class BaseLoginAuthor(TestCase):
         self.author_user = AuthorUser()
         self.author_user.author = self.user_instance
         self.author_user.save()
+
+        self.author_user_author = self.author_user.author
+
+        return self.author_user_author
