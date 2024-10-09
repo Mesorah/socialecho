@@ -91,24 +91,26 @@ body {
 .post-message {
     margin-top: 15px;
     font-size: 1.1em;
-    margin-left: 10px;
+    margin-left: 5px;
     color: #616161;
 }
 
-.link-img-post {
+.link-img-post a {
     margin-top: 0.7rem;
     color: #0288d1;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
-.link-img-post:hover {
+.link-img-post a:hover {
     color: #01579b;
 }
 
 .img_post {
     margin-top: 2rem;
-    width: 30vw;
-    height: 47vh;
+    width: 100%; /* Deixa a imagem responsiva, ocupando 100% da largura disponível */
+    max-width: 70vw; /* Limita a largura máxima a 70% da largura da viewport */
+    height: auto; /* Mantém a proporção original da imagem */
+    max-height: 30vh; /* Limita a altura máxima a 30% da altura da viewport */
 }
 
 .contact-background {
@@ -247,6 +249,11 @@ body {
 }
 
 .button-container {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* .button-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -265,7 +272,7 @@ body {
 
 .button-container a:hover {
     background-color: #218838;
-}
+} */
 
 .image {
     width: 35px;
@@ -288,11 +295,85 @@ body {
     display: inline-block;
 }
 
+/* Estilo para o container principal da dashboard */
+.main-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+    padding: 1.5rem;
+}
+
+/* Estilo para a área de logout */
+.logout-dashboard {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.1em;
+    color: #424242;
+}
+
+/* Estilo para os posts na dashboard */
+.dashboard-container {
+    width: 600px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botões de editar e deletar no dashboard */
+.button-dashboard {
+    background-color: #ff5722;
+    color: white;
+    padding: 7px 12px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.button-dashboard:hover {
+    background-color: #e64a19;
+}
+
+/* Estilo do título do post */
+.dashboard-container a:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.dashboard-container a:first-child:hover {
+    text-decoration: underline;
+}
+
+/* .dashboard-title {
+} */
+
+.dashboard-user {
+    margin-bottom: 25px;
+}
+
 /* Ajustes para telas maiores */
 @media (min-width: 768px) {
     .button-container {
         margin-right: 75%;
     }
+
+    .img_post {
+        width: 50vw;
+        height: 40vh;
+    }
+    
 }
 
 @media (max-width: 768px) {
@@ -300,5 +381,14 @@ body {
         margin-top: 2rem;
         width: 70vw;
         height: 30vh;
+    }
+
+    .dashboard-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .button-dashboard {
+        margin-top: 1rem;
     }
 }

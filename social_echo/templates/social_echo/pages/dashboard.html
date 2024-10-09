@@ -2,13 +2,15 @@
 
 {% block content %}
     <div class="main-dashboard-container">
-        <div class="logout-dashboard">
-            <p>Você está logado como {{ request.user }} para deslogar <a href="{% url 'authors:logout_author' %}">clique aqui</a></p>
+        <div class="dashboard-user">
+            <p>{{ user }}</p>
         </div>
         {% for post in posts %}
             <div>
                 <div class="dashboard-container">
-                    <a href="{% url 'social_echo:edit_post' post.id %}">{{ post.title }}</a>
+                    <div class="dashboard-title">
+                        <a href="{% url 'social_echo:edit_post' post.id %}">{{ post.title }}</a>
+                    </div>
                     <a class="button button-dashboard" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
                     <a class="button button-dashboard" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
                 </div>

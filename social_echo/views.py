@@ -1,4 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404,
+    get_list_or_404,
+)
 from .models import Posts, AuthorUser
 from .forms import CreatePost
 from django.contrib.auth.decorators import login_required
@@ -95,9 +100,15 @@ def view_post(request, id):
 
 
 @login_required
-def dashboard(request):
-    posts = Posts.objects.filter(author=request.user)
+def dashboard(request, id):
+    posts = get_list_or_404(Posts, author=id)
+
+    user = None
+
+    if posts:
+        user = posts[0].author
 
     return render(request, 'social_echo/pages/dashboard.html', context={
         'posts': posts,
+        'user': user,
     })
