@@ -1,18 +1,27 @@
 {% extends "global/pages/base.html" %}
 
 {% block content %}
-    <div class="main-dashboard-container">
+    <div class="dashboard-user-container">
         <div class="dashboard-user">
+            {% if cover %}
+                <p><img src="{{ cover.url }}" alt="" class="image"></p>
+            {% endif %}
             <p>{{ user }}</p>
+            <p>Seguidores: 150</p>
+            <p>Seguindo: 346</p>
         </div>
+    </div>
+    <div class="main-dashboard-container">
         {% for post in posts %}
             <div>
                 <div class="dashboard-container">
                     <div class="dashboard-title">
                         <a href="{% url 'social_echo:edit_post' post.id %}">{{ post.title }}</a>
                     </div>
-                    <a class="button button-dashboard" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
-                    <a class="button button-dashboard" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
+                    <div class="dashboard-container-button">
+                        <a class="button button-dashboard" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
+                        <a class="button button-dashboard" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
+                    </div>
                 </div>
             </div>
         {% endfor %}

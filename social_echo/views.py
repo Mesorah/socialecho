@@ -108,7 +108,11 @@ def dashboard(request, id):
     if posts:
         user = posts[0].author
 
+    if user:
+        cover = posts[0].author_cover.cover
+
     return render(request, 'social_echo/pages/dashboard.html', context={
         'posts': posts,
         'user': user,
+        'cover': cover
     })
