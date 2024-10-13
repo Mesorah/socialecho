@@ -7,8 +7,8 @@
                 <p><img src="{{ cover.url }}" alt="" class="image"></p>
             {% endif %}
             <p>{{ user }}</p>
-            <p>Seguidores: 150</p>
-            <p>Seguindo: 346</p>
+            <a href="{% url 'social_echo:list_follows' posts.0.author.id %}">Seguidores: {{ follows }}</a>
+            <a href="{% url 'social_echo:list_following' posts.0.author.id %}">Seguindo: {{ following }}</a>
         </div>
     </div>
     <div class="main-dashboard-container">
@@ -18,10 +18,12 @@
                     <div class="dashboard-title">
                         <a href="{% url 'social_echo:edit_post' post.id %}">{{ post.title }}</a>
                     </div>
-                    <div class="dashboard-container-button">
-                        <a class="button button-dashboard" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
-                        <a class="button button-dashboard" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
-                    </div>
+                    {% if request.user == post.author %}
+                        <div class="dashboard-container-button">
+                            <a class="button button-dashboard" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
+                            <a class="button button-dashboard" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

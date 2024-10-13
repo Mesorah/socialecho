@@ -2,12 +2,12 @@ from django.shortcuts import (
     render,
     redirect,
     get_object_or_404,
-    get_list_or_404,
 )
 from .models import Posts, AuthorUser
 from .forms import CreatePost
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -99,20 +99,67 @@ def view_post(request, id):
     })
 
 
-@login_required
 def dashboard(request, id):
-    posts = get_list_or_404(Posts, author=id)
+    posts = Posts.objects.filter(author=id)
 
     user = None
 
-    if posts:
+    if not posts:
+        raise Http404()
+    else:
         user = posts[0].author
 
-    if user:
+    try:
         cover = posts[0].author_cover.cover
+        follows = posts[0].author_cover.follows.count()
+        following = posts[0].author_cover.following.count()
+    except AttributeError:
+        cover = 'media/user/base/base_cover.jpeg'
+        follows = 0
+        following = 0
 
     return render(request, 'social_echo/pages/dashboard.html', context={
         'posts': posts,
         'user': user,
-        'cover': cover
+        'cover': cover,
+        'follows': follows,
+        'following': following,
     })
+
+
+def list_follows_or_following(request, id, type_):
+    author = get_object_or_404(AuthorUser, id=id)
+
+    owner = False
+
+    if str(request.user) == str(author):
+        owner = True
+
+    if type_ == 'follows':
+        users = author.follows.all()
+    elif type_ == 'following':
+        users = author.following.all()
+
+    return render(request, 'social_echo/pages/list_follows_following.html', context={ # noqa E501
+        'users': users,
+        'owner': owner,
+        'type_': type_,
+    })
+
+
+@login_required
+def unfollow_or_unfollowing(request, id, type_):
+    # Deixar só como post
+    author = AuthorUser.objects.filter(author=request.user).first()
+
+    unfollow_user = get_object_or_404(User, id=id)
+
+    if type_ == 'unfollow':
+        if unfollow_user in author.follows.all():
+            author.follows.remove(unfollow_user)
+
+    elif type_ == 'unfollowing':
+        if unfollow_user in author.following.all():
+            author.following.remove(unfollow_user)
+
+    return redirect('social_echo:home')

@@ -1,0 +1,24 @@
+{% extends "global/pages/base.html" %}
+
+{% block content %}
+    <div class="main-ff-container">
+        {% for user in users %}
+            <div>
+                <div class="ff-container">
+                    <div class="ff-title">
+                        <p>{{ user }}</p>
+                    </div>
+                    {% if owner %}
+                        <div class="ff-container-button">
+                            {% if type_ == 'follows' %}
+                                <a class="button button-ff" href="{% url 'social_echo:unfollow_user' user.id %}">Deletar</a>
+                            {% elif type_ == 'following' %}
+                                <a class="button button-ff" href="{% url 'social_echo:unfollowing_user' user.id %}">Deletar</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

@@ -383,6 +383,47 @@ body {
     margin-right: 35px;
 }
 
+.main-ff-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas de tamanho igual */
+    gap: 20px; /* Espaço entre os itens */
+}
+
+.ff-container {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo do item */
+    width: 250px;
+}
+
+.ff-title {
+    font-size: 1.5em;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center; /* Centraliza o texto do título */
+}
+
+.ff-container-button {
+    margin-top: 10px;
+}
+
+.button-ff {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.button-ff:hover {
+    background-color: #c0392b;
+}
+
 /* Ajustes para telas maiores */
 @media (min-width: 768px) {
     .button-container {
