@@ -7,8 +7,19 @@
                 <p><img src="{{ cover.url }}" alt="" class="image"></p>
             {% endif %}
             <p>{{ user }}</p>
-            <a href="{% url 'social_echo:list_follows' posts.0.author.id %}">Seguidores: {{ follows }}</a>
-            <a href="{% url 'social_echo:list_following' posts.0.author.id %}">Seguindo: {{ following }}</a>
+
+            <div class="follow_following_dashboard">
+                <a href="{% url 'social_echo:list_follows' posts.0.author.id %}">Seguidores: {{ follows }}</a>
+                <a href="{% url 'social_echo:list_following' posts.0.author.id %}">Seguindo: {{ following }}</a>
+            </div>
+            
+            {% if request.user.is_authenticated and request.user != user %}
+                {% if not user in user_followings %}
+                    <a href="{% url 'social_echo:follow_user_system' posts.0.author.id%}" class="follow-btn">Seguir</a>
+                {% else %}
+                    <a href="{% url 'social_echo:unfollow_user_system' posts.0.author.id%}" class="unfollow-btn">Deixar de seguir</a>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
     <div class="main-dashboard-container">

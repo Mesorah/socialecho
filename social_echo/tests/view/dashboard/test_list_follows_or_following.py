@@ -28,19 +28,41 @@ class TestDashboardListFollowsSocialEcho(BaseCreatePost):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['type_'], 'follows')
+        self.assertNotEqual(response.context['type_'], 'following')
 
-    def test_if_type_is_not_cert(self):
-        self.new_author = self.create_user()
+    def test_if_follows_user_is_equal_to_author(self):
+        response = self.client.get(
+            reverse('social_echo:list_follows',
+                    kwargs={'id': self.author_user.author.id}))
 
-        self.author = AuthorUser()
-        self.author.author = self.author_user.author
-        self.author.save()
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['owner'])
+
+    def test_follows_template_used(self):
+        response = self.client.get(
+            reverse('social_echo:list_follows', kwargs={'id': 1}))
+
+        self.assertTemplateUsed(response,
+                                'social_echo/pages/list_follows_following.html'
+                                )
+
+    def test_follows_view_for_anonymous_user(self):
+        self.client.logout()
 
         response = self.client.get(
             reverse('social_echo:list_follows', kwargs={'id': 1}))
 
         self.assertEqual(response.status_code, 200)
-        self.assertNotEqual(response.context['type_'], 'following')
+        self.assertFalse(response.context['owner'])
+
+    def test_follows_users_in_context(self):
+        response = self.client.get(
+            reverse('social_echo:list_follows',
+                    kwargs={'id': self.author_user.id}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['users']),
+                         list(self.author_user.follows.all()))
 
 
 class TestDashboardListFollowingSocialEcho(BaseCreatePost):
@@ -68,16 +90,47 @@ class TestDashboardListFollowingSocialEcho(BaseCreatePost):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['type_'], 'following')
+        self.assertNotEqual(response.context['type_'], 'follows')
 
-    def test_if_type_is_not_cert(self):
-        self.new_author = self.create_user()
-
-        self.author = AuthorUser()
-        self.author.author = self.author_user.author
-        self.author.save()
-
+    def test_if_following_user_is_equal_to_author(self):
         response = self.client.get(
-            reverse('social_echo:list_follows', kwargs={'id': 1}))
+            reverse('social_echo:list_following',
+                    kwargs={'id': self.author_user.author.id}))
 
         self.assertEqual(response.status_code, 200)
-        self.assertNotEqual(response.context['type_'], 'follow')
+        self.assertTrue(response.context['owner'])
+
+    def test_following_template_used(self):
+        response = self.client.get(
+            reverse('social_echo:list_following', kwargs={'id': 1}))
+
+        self.assertTemplateUsed(response,
+                                'social_echo/pages/list_follows_following.html'
+                                )
+
+    def test_following_view_for_anonymous_user(self):
+        self.client.logout()
+
+        response = self.client.get(
+            reverse('social_echo:list_following', kwargs={'id': 1}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['owner'])
+
+    def test_following_users_in_context(self):
+        response = self.client.get(
+            reverse('social_echo:list_following',
+                    kwargs={'id': self.author_user.id}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['users']),
+                         list(self.author_user.following.all()))
+
+    def test_cover(self):
+        self.post.cover = ''
+
+        response = self.client.get(
+            reverse('social_echo:list_following',
+                    kwargs={'id': self.author_user.id}))
+
+        self.assertEqual(response.status_code, 200)
