@@ -1,18 +1,20 @@
 from utils.base_for_tests.base_for_post import BaseCreatePost
 from social_echo.models import AuthorUser
 from django.urls import reverse
+import pytest
 
 
+@pytest.mark.part
 class TestDashboardUnlistFollowsSocialEcho(BaseCreatePost):
     def test_dashboard_unfollows_returns_302(self):
         response = self.client.get(
-            reverse('social_echo:unfollow_user', kwargs={'id': 1}))
+            reverse('dashboard:unfollow_user', kwargs={'id': 1}))
 
         self.assertEqual(response.status_code, 302)
 
     def test_dashboard_unfollows_returns_404(self):
         response = self.client.get(
-            reverse('social_echo:unfollow_user', kwargs={'id': 2}))
+            reverse('dashboard:unfollow_user', kwargs={'id': 2}))
 
         self.assertEqual(response.status_code, 404)
 
@@ -24,7 +26,7 @@ class TestDashboardUnlistFollowsSocialEcho(BaseCreatePost):
         self.author.save()
 
         response = self.client.get(
-            reverse('social_echo:unfollow_user', kwargs={'id': 2}))
+            reverse('dashboard:unfollow_user', kwargs={'id': 2}))
 
         self.assertEqual(response.status_code, 302)
 
@@ -36,20 +38,21 @@ class TestDashboardUnlistFollowsSocialEcho(BaseCreatePost):
         self.author.save()
 
         response = self.client.get(
-            reverse('social_echo:unfollow_user', kwargs={'id': 3}))
+            reverse('dashboard:unfollow_user', kwargs={'id': 3}))
 
         self.assertEqual(response.status_code, 404)
 
 
+@pytest.mark.part
 class TestDashboardUnlistFollowingSocialEcho(BaseCreatePost):
     def test_dashboard_unfollowing_returns_302(self):
         response = self.client.get(
-            reverse('social_echo:unfollowing_user', kwargs={'id': 1}))
+            reverse('dashboard:unfollowing_user', kwargs={'id': 1}))
 
         self.assertEqual(response.status_code, 302)
 
     def test_dashboard_unfollowing_returns_404(self):
         response = self.client.get(
-            reverse('social_echo:unfollowing_user', kwargs={'id': 2}))
+            reverse('dashboard:unfollowing_user', kwargs={'id': 2}))
 
         self.assertEqual(response.status_code, 404)

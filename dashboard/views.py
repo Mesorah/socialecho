@@ -3,13 +3,13 @@ from django.shortcuts import (
     redirect,
     get_object_or_404,
 )
-from .models import Posts, AuthorUser
+from social_echo.models import Posts, AuthorUser
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.contrib.auth.models import User
 
 
-def dashboard(request, id):
+def home(request, id):
     posts = Posts.objects.filter(author=id)
 
     author = AuthorUser.objects.filter(author=id).first()
@@ -35,7 +35,7 @@ def dashboard(request, id):
         follows = 0
         following = 0
 
-    return render(request, 'social_echo/pages/dashboard.html', context={
+    return render(request, 'dashboard/pages/dashboard.html', context={
         'posts': posts,
         'user': user,
         'cover': cover,
@@ -58,7 +58,7 @@ def list_follows_or_following(request, id, type_):
     elif type_ == 'following':
         users = author.following.all()
 
-    return render(request, 'social_echo/pages/list_follows_following.html', context={ # noqa E501
+    return render(request, 'dashboard/pages/list_follows_following.html', context={ # noqa E501
         'users': users,
         'owner': owner,
         'type_': type_,
@@ -91,7 +91,7 @@ def follow_user_system(request, id):
     author.following.add(author_for_follow.author)
     author_for_follow.follows.add(author.author)
 
-    return redirect('social_echo:dashboard', id=id)
+    return redirect('dashboard:home', id=id)
 
 
 @login_required
@@ -102,4 +102,4 @@ def unfollow_user_system(request, id):
     author.following.remove(author_for_follow.author)
     author_for_follow.follows.remove(author.author)
 
-    return redirect('social_echo:dashboard', id=id)
+    return redirect('dashboard:home', id=id)

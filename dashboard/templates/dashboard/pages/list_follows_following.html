@@ -11,9 +11,9 @@
                     {% if owner %}
                         <div class="ff-container-button">
                             {% if type_ == 'follows' %}
-                                <a class="button button-ff" href="{% url 'social_echo:unfollow_user' user.id %}">Deletar</a>
+                                <a class="button button-ff" href="{% url 'dashboard:unfollow_user' user.id %}">Deletar</a>
                             {% elif type_ == 'following' %}
-                                <a class="button button-ff" href="{% url 'social_echo:unfollowing_user' user.id %}">Deletar</a>
+                                <a class="button button-ff" href="{% url 'dashboard:unfollowing_user' user.id %}">Deletar</a>
                             {% endif %}
                         </div>
                     {% endif %}
