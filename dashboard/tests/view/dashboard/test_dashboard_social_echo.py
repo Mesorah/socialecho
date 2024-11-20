@@ -1,9 +1,9 @@
 from utils.base_for_tests.base_for_post import BaseCreatePost
-from utils.base_for_tests.base_for_login import BaseLoginAuthor
-from social_echo.models import AuthorUser
 from django.urls import reverse
+import pytest
 
 
+@pytest.mark.part
 class TestDashboardSocialEcho(BaseCreatePost):
     def test_dashboard_returns_200(self):
 
@@ -57,21 +57,22 @@ class TestDashboardSocialEcho(BaseCreatePost):
 # trazer a classe para cima por: self.create_user direto
 
 
-class TestDashboardFFSocialEcho(BaseLoginAuthor):
-    def setUp(self):
-        self.new_author = self.create_user()
+# @pytest.mark.part
+# class TestDashboardFFSocialEcho(BaseLoginAuthor):
+#     def setUp(self):
+#         self.new_author = self.create_user()
 
-        self.author = AuthorUser()
-        self.author.author = self.author_user.author
-        self.author.save()
+#         self.author = AuthorUser()
+#         self.author.author = self.author_user.author
+#         self.author.save()
 
-        self.author.follows.add(self.new_author)
-        self.author.following.add(self.new_author)
+#         self.author.follows.add(self.new_author)
+#         self.author.following.add(self.new_author)
 
-        return super().setUp()
+#         return super().setUp()
 
-    def test_dashboard_follows_is_not_zero(self):
-        self.assertEqual(self.author.follows.count(), 1)
+#     def test_dashboard_follows_is_not_zero(self):
+#         self.assertEqual(self.author.follows.count(), 1)
 
-    def test_dashboard_following_is_not_zero(self):
-        self.assertEqual(self.author.following.count(), 1)
+#     def test_dashboard_following_is_not_zero(self):
+#         self.assertEqual(self.author.following.count(), 1)

@@ -12,14 +12,17 @@
 
             <div class="link-img-post">
                 {% if post.cover %}
-                    <a href="{% url 'social_echo:view_post' post.id %}">Veja a imagem...</a>
+                    <a href="{{ post.get_absolute_url }}">Veja a imagem...</a>
                 {% endif %}
             </div>
             
             {% if request.user == post.author %}
                 <div class="button-container">
-                    <a class="button" href="{% url 'social_echo:edit_post' post.id %}">Editar</a>
-                    <a class="button" href="{% url 'social_echo:delete_post' post.id %}">Deletar</a>
+                    <a class="button" href="{{ post.get_edit_url }}">Editar</a>
+                    <form action="{{ post.get_delete_url }}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="button">Deletar</button>
+                    </form>
                 </div>
             {% endif %}
         </div>

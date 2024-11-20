@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from authors.models import AuthorUser
+from django.urls import reverse
 
 
 class Posts(models.Model):
@@ -14,3 +15,12 @@ class Posts(models.Model):
 
     def __str__(self):
         return f'{self.message}'
+
+    def get_absolute_url(self):
+        return reverse('social_echo:view_post', args=(self.id,))
+
+    def get_edit_url(self):
+        return reverse('social_echo:edit_post', args=(self.id,))
+
+    def get_delete_url(self):
+        return reverse('social_echo:delete_post', args=(self.id,))
