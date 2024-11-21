@@ -45,7 +45,7 @@ class PostCreateUpdateView(View):
         post = self.get_post(id)
 
         username = request.user
-        is_user = AuthorUser.objects.filter(author=username)
+        is_user = AuthorUser.objects.filter(author=username, id=id)
 
         if is_user:
             form = CreatePost(request.POST, request.FILES, instance=post)

@@ -4,7 +4,7 @@ from . import views
 app_name = 'social_echo'
 
 urlpatterns = [
-     path('', views.PostListView.as_view(), name="home"),
+     path('', views.PostListViewHome.as_view(), name="home"),
 
      path('create_post/',
           views.PostCreateUpdateView.as_view(),

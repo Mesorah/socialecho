@@ -1,10 +1,8 @@
 from django.shortcuts import (
     render,
-    redirect,
     get_object_or_404,
 )
 from social_echo.models import Posts
-from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.http import Http404
 
@@ -16,6 +14,24 @@ class PostListView(ListView):
     paginate_by = 5
 
 
+class PostListViewHome(PostListView):
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+
+        queryset = queryset.all().order_by('-id')
+
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context.update({
+            'title': 'Home',
+        })
+
+        return context
+
+
 def home(request):
     posts = Posts.objects.all().order_by('-id')
 
@@ -23,15 +39,6 @@ def home(request):
         'title': 'Home',
         'posts': posts
     })
-
-
-@login_required
-def delete_post(request, id):
-    post = get_object_or_404(Posts, id=id)
-
-    post.delete()
-
-    return redirect('social_echo:home')
 
 
 def view_post(request, id):
