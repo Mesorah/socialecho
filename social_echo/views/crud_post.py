@@ -1,19 +1,13 @@
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from social_echo.models import Posts, AuthorUser
 from social_echo.forms import CreatePost
 from django.http import Http404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 
-@method_decorator(
-    login_required(login_url='authors:login_author',
-                   redirect_field_name='next'
-                   ),
-    name='dispatch'
-)
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
+    login_url = 'authors:login_author'
     template_name = 'global/pages/base_form.html'
     model = Posts
     success_url = reverse_lazy('social_echo:home')
@@ -33,13 +27,8 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
 
 
-@method_decorator(
-    login_required(login_url='authors:login_author',
-                   redirect_field_name='next'
-                   ),
-    name='dispatch'
-)
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'authors:login_author'
     template_name = 'global/pages/base_form.html'
     model = Posts
     success_url = reverse_lazy('social_echo:home')
@@ -54,13 +43,8 @@ class PostUpdateView(UpdateView):
         return obj
 
 
-@method_decorator(
-    login_required(login_url='authors:login_author',
-                   redirect_field_name='next'
-                   ),
-    name='dispatch'
-)
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = 'authors:login_author'
     template_name = None
     model = Posts
     success_url = reverse_lazy('social_echo:home')
