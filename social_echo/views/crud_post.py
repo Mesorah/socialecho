@@ -45,6 +45,14 @@ class PostUpdateView(UpdateView):
     success_url = reverse_lazy('social_echo:home')
     form_class = CreatePost
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        if obj.author != self.request.user:
+            raise Http404()
+
+        return obj
+
 
 @method_decorator(
     login_required(login_url='authors:login_author',

@@ -14,19 +14,19 @@ class TestEditPostSocialEcho(BaseCreatePost):
 
     def test_if_request_is_get(self):
         response = self.client.get(
-            reverse('social_echo:edit_post', kwargs={'id': 1}))
+            reverse('social_echo:edit_post', kwargs={'pk': 1}))
 
         self.assertEqual(response.status_code, 200)
 
     def test_if_request_is_post(self):
         response = self.client.get(
-            reverse('social_echo:edit_post', kwargs={'id': 1}))
+            reverse('social_echo:edit_post', kwargs={'pk': 1}))
 
         self.assertEqual(response.status_code, 200)
 
     def test_if_post_is_valid(self):
         response = self.client.post(
-            reverse('social_echo:edit_post', kwargs={'id': 1}),
+            reverse('social_echo:edit_post', kwargs={'pk': 1}),
             data=self.form_data)
 
         self.assertEqual(response.status_code, 302)
@@ -35,7 +35,7 @@ class TestEditPostSocialEcho(BaseCreatePost):
         self.form_data['title'] = {}
 
         response = self.client.post(
-            reverse('social_echo:edit_post', kwargs={'id': 1}),
+            reverse('social_echo:edit_post', kwargs={'pk': 1}),
             data=self.form_data)
 
         self.assertEqual(response.status_code, 200)
@@ -50,7 +50,7 @@ class TestEditPostSocialEcho(BaseCreatePost):
         BaseCreatePost.create_post(self)
 
         response = self.client.post(
-            reverse('social_echo:edit_post', kwargs={'id': 1}),
+            reverse('social_echo:edit_post', kwargs={'pk': 1}),
             data=self.form_data)
 
         self.assertEqual(response.status_code, 404)
