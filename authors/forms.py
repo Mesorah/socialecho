@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from authors.models import AuthorUser
 
 
 class RegisterAuthor(forms.ModelForm):
@@ -53,6 +54,26 @@ class RegisterAuthor(forms.ModelForm):
             self.add_error('password', 'Essa senha é muito curta')
 
         return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit)
+
+        user.set_password(self.cleaned_data['password'])
+
+        if commit:
+            user.save()
+
+        cover = self.cleaned_data['cover']
+
+        if cover is None:
+            cover = 'media/user/base/base_cover.jpeg'
+
+        AuthorUser.objects.create(
+                author=user,
+                cover=cover
+        )
+
+        return user
 
 
 class LoginAuthor(forms.Form):

@@ -4,7 +4,10 @@
     {% if user.is_authenticated %}
         <a href="{% url 'dashboard:home' user.id %}">Dashboard</a>
         <a href="{% url 'social_echo:create_post' %}">Postar</a>
-        <a href="{% url 'authors:logout_author' %}">Logout</a>
+        <form action="{% url 'authors:logout_author' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
     {% else %}
         <a href="{% url 'authors:register_author' %}">Register</a>
         <a href="{% url 'authors:login_author' %}">Login</a>

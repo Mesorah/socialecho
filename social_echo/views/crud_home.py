@@ -1,10 +1,5 @@
-from django.shortcuts import (
-    render,
-    get_object_or_404,
-)
 from social_echo.models import Posts
-from django.views.generic import ListView
-from django.http import Http404
+from django.views.generic import ListView, DetailView
 
 
 class PostListView(ListView):
@@ -32,22 +27,7 @@ class PostListViewHome(PostListView):
         return context
 
 
-def home(request):
-    posts = Posts.objects.all().order_by('-id')
-
-    return render(request, 'social_echo/pages/home.html', context={
-        'title': 'Home',
-        'posts': posts
-    })
-
-
-def view_post(request, id):
-    posts = get_object_or_404(Posts, id=id)
-
-    if not posts.cover:
-        raise Http404()
-
-    return render(request, 'social_echo/pages/view_page.html', context={
-        'title': 'View Page',
-        'posts': posts
-    })
+class ViewPostDetailView(DetailView):
+    template_name = 'social_echo/pages/view_page.html'
+    model = Posts
+    context_object_name = 'post'

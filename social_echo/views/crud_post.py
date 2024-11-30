@@ -1,14 +1,10 @@
-from django.views import View
-from django.shortcuts import (
-    render,
-    redirect,
-    get_object_or_404,
-)
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from social_echo.models import Posts, AuthorUser
 from social_echo.forms import CreatePost
 from django.http import Http404
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 
 @method_decorator(
@@ -17,55 +13,24 @@ from django.http import Http404
                    ),
     name='dispatch'
 )
-class PostCreateUpdateView(View):
-    def get_post(self, id):
-        post = None
+class PostCreateView(CreateView):
+    template_name = 'global/pages/base_form.html'
+    model = Posts
+    success_url = reverse_lazy('social_echo:home')
+    form_class = CreatePost
 
-        if id is not None:
-            post = get_object_or_404(Posts, id=id)
+    def form_valid(self, form):
+        form.instance.author = self.request.user
 
-            if not post:
-                raise Http404()
+        try:
+            author_user = AuthorUser.objects.get(author=self.request.user)
+        except AuthorUser.DoesNotExist:
+            author_user = None
 
-        return post
+        if author_user:
+            form.instance.author_cover = author_user
 
-    def render_post(self, form):
-        return render(self.request, 'global/pages/base_form.html', context={
-            'form': form,
-        })
-
-    def get(self, request, id=None):
-        post = self.get_post(id)
-
-        form = CreatePost(instance=post)
-
-        return self.render_post(form)
-
-    def post(self, request, id=None):
-        post = self.get_post(id)
-
-        username = request.user
-        is_user = AuthorUser.objects.filter(author=username, id=id)
-
-        if is_user:
-            form = CreatePost(request.POST, request.FILES, instance=post)
-
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.author = request.user
-
-                author_user = AuthorUser.objects.get(author=request.user)
-
-                post.author_cover = author_user
-
-                post.save()
-
-                return redirect('social_echo:home')
-
-        else:
-            raise Http404()
-
-        return self.render_post(form)
+        return super().form_valid(form)
 
 
 @method_decorator(
@@ -74,18 +39,34 @@ class PostCreateUpdateView(View):
                    ),
     name='dispatch'
 )
-class PostDeleteView(View):
-    def get_post(self, id):
-        post = get_object_or_404(Posts, id=id)
+class PostUpdateView(UpdateView):
+    template_name = 'global/pages/base_form.html'
+    model = Posts
+    success_url = reverse_lazy('social_echo:home')
+    form_class = CreatePost
 
-        if post.author != self.request.user:
+
+@method_decorator(
+    login_required(login_url='authors:login_author',
+                   redirect_field_name='next'
+                   ),
+    name='dispatch'
+)
+class PostDeleteView(DeleteView):
+    template_name = None
+    model = Posts
+    success_url = reverse_lazy('social_echo:home')
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        if obj.author != self.request.user:
             raise Http404()
 
-        return post
+        return obj
 
-    def post(self, request, id):
-        post = self.get_post(id)
-        print(post)
-        post.delete()
+    def get(self, request, *args, **kwargs):
+        # só pra ter certeza que ninguém irá
+        # excluir como get
 
-        return redirect('social_echo:home')
+        raise Http404()

@@ -1,65 +1,55 @@
-from django.shortcuts import render, redirect
-from .forms import RegisterAuthor, LoginAuthor
-from authors.models import AuthorUser
-from django.contrib.auth import authenticate, login, logout
+from .forms import RegisterAuthor
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
 
 
-def register_author(request):
-    cover = None
+class AuthorRegister(FormView):
+    template_name = 'global/pages/base_form.html'
+    form_class = RegisterAuthor
+    success_url = reverse_lazy('social_echo:home')
 
-    if request.method == 'POST':
-        form = RegisterAuthor(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
-            cover = form.cleaned_data['cover']
+        context.update({
+            'title': 'Register',
+        })
 
-            if cover is None:
-                cover = 'media/user/base/base_cover.jpeg'
+        return context
 
-            AuthorUser.objects.create(
-                author=user,
-                cover=cover
-            )
+    def form_valid(self, form):
+        form.save()
 
-            return redirect('social_echo:home')
-
-    else:
-        form = RegisterAuthor()
-
-    return render(request, 'global/pages/base_form.html', context={
-        'title': 'Register',
-        'form': form,
-        'cover': cover
-    })
+        return super().form_valid(form)
 
 
-def login_author(request):
-    if request.method == 'POST':
-        form = LoginAuthor(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+class AuthorLogin(LoginView):
+    template_name = 'global/pages/base_form.html'
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('social_echo:home')
 
-            user = authenticate(username=username, password=password)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
-            if user is not None:
-                login(request, user)
+        context.update({
+            'title': 'Login',
+        })
 
-                return redirect('social_echo:home')
+        return context
 
-    else:
-        form = LoginAuthor()
-
-    return render(request, 'global/pages/base_form.html', context={
-        'title': 'Login',
-        'form': form,
-    })
+    def get_success_url(self):
+        return self.success_url
 
 
-def logout_author(request):
-    logout(request)
-
-    return redirect('social_echo:home')
+@method_decorator(
+    login_required(login_url='authors:login_author',
+                   redirect_field_name='next'
+                   ),
+    name='dispatch'
+)
+class AuthorLogout(LogoutView):
+    def get_redirect_url(self):
+        return reverse_lazy('authors:login_author')
