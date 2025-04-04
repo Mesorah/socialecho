@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 app_name = 'social_echo'
@@ -22,4 +23,16 @@ urlpatterns = [
           views.ViewPostDetailView.as_view(),
           name="view_post"
           ),
+
+     path(
+         'api/',
+         views.post_api,
+         name='post_api'
+     ),
+
+     path(
+         'api/<int:pk>/',
+         views.post_api_detail,
+         name='post_api_detail'
+     ),
 ]

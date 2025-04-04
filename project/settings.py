@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'social_echo',
     'authors',
     'dashboard',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
