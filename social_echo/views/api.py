@@ -24,19 +24,9 @@ def post_api(request):
         )
 
 
-@api_view(http_method_names=['GET', 'POST'])
+@api_view(http_method_names=['GET'])
 def post_api_detail(request, pk):
     if request.method == 'GET':
         post = Posts.objects.filter(id=pk)
         serializer = PostsSerializer(post, many=True)
         return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = PostsSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED
-            )
