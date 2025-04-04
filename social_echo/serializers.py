@@ -32,3 +32,24 @@ class PostsSerializer(serializers.ModelSerializer):
             'id', 'title', 'message',
             'cover', 'author', 'author_user'
         ]
+
+    def validate_title(self, value):
+        if len(value) < 3:
+            raise serializers.ValidationError(
+                'Título precisa ser maior que 3 caracteres'
+            )
+
+        return value
+
+    def validate(self, attrs):
+        super_validate = super().validate(attrs)
+
+        title = attrs.get('title')
+        message = attrs.get('message')
+
+        if title == message:
+            raise serializers.ValidationError(
+                'O título e a mensagem não pode ser iguais'
+            )
+
+        return super_validate

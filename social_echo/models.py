@@ -1,7 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import User
-from authors.models import AuthorUser
+from django.db import models
 from django.urls import reverse
+
+from authors.models import AuthorUser
 
 
 class Posts(models.Model):
