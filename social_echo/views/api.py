@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -24,9 +25,27 @@ def post_api(request):
         )
 
 
-@api_view(http_method_names=['GET'])
+@api_view(http_method_names=['GET', 'PATCH', 'DELETE'])
 def post_api_detail(request, pk):
+    post = get_object_or_404(Posts, id=pk)
+
     if request.method == 'GET':
-        post = Posts.objects.filter(id=pk)
-        serializer = PostsSerializer(post, many=True)
+        serializer = PostsSerializer(post)
         return Response(serializer.data)
+
+    elif request.method == 'PATCH':
+        serializer = PostsSerializer(
+            instance=post,
+            data=request.data,
+            partial=True
+        )
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        post.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
