@@ -19,7 +19,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         ]
 
 
-class PostsSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     author = serializers.CharField(read_only=True)
     author_user = AuthorSerializer(

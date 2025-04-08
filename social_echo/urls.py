@@ -26,13 +26,13 @@ urlpatterns = [
 
      path(
          'api/',
-         views.PostApiView.as_view(),
+         views.PostAPIView.as_view(),
          name='post_api'
      ),
 
      path(
          'api/<int:pk>/',
-         views.PostApiDetailView.as_view(),
+         views.PostAPIDetailView.as_view(),
          name='post_api_detail'
      ),
 ]
