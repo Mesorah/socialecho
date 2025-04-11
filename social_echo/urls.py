@@ -26,13 +26,20 @@ urlpatterns = [
 
      path(
          'api/',
-         views.PostAPIView.as_view(),
+         views.PostAPIModelViewSet.as_view({
+             'get': 'list',
+             'post': 'create',
+         }),
          name='post_api'
      ),
 
      path(
          'api/<int:pk>/',
-         views.PostAPIDetailView.as_view(),
+         views.PostAPIModelViewSet.as_view({
+             'get': 'retrieve',
+             'patch': 'partial_update',
+             'delete': 'destroy',
+         }),
          name='post_api_detail'
      ),
 ]
