@@ -1,6 +1,14 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 
 from . import views
+
+post_api_route = SimpleRouter()
+post_api_route.register(
+    'api',
+    views.PostAPIModelViewSet,
+    basename='post_api'
+)
 
 app_name = 'social_echo'
 
@@ -23,23 +31,6 @@ urlpatterns = [
           views.ViewPostDetailView.as_view(),
           name="view_post"
           ),
-
-     path(
-         'api/',
-         views.PostAPIModelViewSet.as_view({
-             'get': 'list',
-             'post': 'create',
-         }),
-         name='post_api'
-     ),
-
-     path(
-         'api/<int:pk>/',
-         views.PostAPIModelViewSet.as_view({
-             'get': 'retrieve',
-             'patch': 'partial_update',
-             'delete': 'destroy',
-         }),
-         name='post_api_detail'
-     ),
 ]
+
+urlpatterns += post_api_route.urls
