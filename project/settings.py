@@ -141,8 +141,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+# PROVISÓRIO!
+DJANGO_TEST = True
+
 # Use hasher mais rápido para testes
-if 'test' in sys.argv:
+if DJANGO_TEST or 'test' in sys.argv:
     PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
     ]
