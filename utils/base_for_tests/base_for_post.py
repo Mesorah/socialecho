@@ -1,5 +1,5 @@
-from utils.base_for_tests.base_for_login import BaseLoginAuthor
 from social_echo.models import Posts
+from utils.base_for_tests.base_for_login import BaseLoginAuthor
 
 
 class BaseCreatePost(BaseLoginAuthor):

@@ -2,12 +2,13 @@ import time
 
 from django.test import LiveServerTestCase
 
+from utils.base_for_tests.base_for_post import BaseCreatePost
 from utils.browser import get_chrome_driver
 
 
-class SocialEchoBaseFunctionalTest(LiveServerTestCase):
+class SocialEchoBaseFunctionalTest(LiveServerTestCase, BaseCreatePost):
     def setUp(self):
-        self.browser = get_chrome_driver()
+        self.browser = get_chrome_driver(False)
         self.browser.get(self.live_server_url)
 
         return super().setUp()
